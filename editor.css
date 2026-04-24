@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.editor {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  height: 100vh;
+}
+
+aside {
+  padding: 20px;
+  background: #8069d4;
+  color: white;
+}
+
+aside button {
+  width: 100%;
+  padding: 10px;
+  background: #7e52ee;
+  border: none;
+  color: black;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+main {
+  overflow-y: auto;
+}

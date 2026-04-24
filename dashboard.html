@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Workspace | Portfolio Builder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- GLOBAL THEME -->
+    <link rel="stylesheet" href="theme.css" />
+
+    <!-- DASHBOARD PAGE -->
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+
+  <body>
+    <div class="app">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="user">
+          <img
+            src="https://img.freepik.com/premium-vector/portrait-business-woman_505024-2799.jpg?semt=ais_hybrid&w=740&q=80"
+          />
+          <div>
+            <!-- STATIC NAME -->
+            <h3>Sakshi</h3>
+            <span>Portfolio Creator</span>
+          </div>
+        </div>
+
+        <nav>
+          <a class="active">Home</a>
+          <a href="templates.html">Templates</a>
+          <a href="builder.html">Build Resume</a>
+          <a href="profile.html">Profile</a>
+          <a href="contact.html">Contact</a>
+          <a href="about.html">About</a>
+          <a href="FAQ.html">FAQ</a>
+        </nav>
+
+        <button class="logout" onclick="logoutUser()">Logout</button>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="content">
+        <section class="intro">
+          <!-- STATIC WELCOME -->
+          <h2>Welcome👋</h2>
+
+          <h1>
+            Hey, I’m Sakshi.<br />
+            I build professional portfolios.
+          </h1>
+
+          <p>
+            This is your personal workspace where you can design, customize and
+            manage your portfolio with ease.
+          </p>
+
+          <div class="actions">
+            <button class="btn-primary" onclick="goTemplates()">
+              Choose Template
+            </button>
+            <button class="btn-outline" onclick="goBuilder()">
+              Build Resume
+            </button>
+          </div>
+        </section>
+
+        <section class="recent">
+          <h4>What you can do</h4>
+          <ul>
+            <li>Create modern portfolio designs</li>
+            <li>Edit and manage multiple portfolios</li>
+            <li>Download it as PDF</li>
+            <li>Share your work professionally</li>
+          </ul>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      // LOGOUT FUNCTION
+      function logoutUser() {
+        localStorage.removeItem("user");
+        window.location.href = "login.html";
+      }
+
+      // NAVIGATION FUNCTIONS
+      function goTemplates() {
+        window.location.href = "templates.html";
+      }
+
+      function goBuilder() {
+        window.location.href = "builder.html";
+      }
+    </script>
+  </body>
+</html>

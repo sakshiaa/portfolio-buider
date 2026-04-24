@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Resume Preview</title>
+    <style>
+      body {
+        font-family: Arial;
+        padding: 40px;
+        color: #000;
+      }
+      h1,
+      h2 {
+        border-bottom: 1px solid #000;
+        padding-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="name"></h1>
+    <p id="title"></p>
+    <p id="contact"></p>
+
+    <h2>Skills</h2>
+    <ul id="skills"></ul>
+
+    <h2>Project</h2>
+    <p id="project"></p>
+
+    <h2>Links</h2>
+    <p id="links"></p>
+
+    <button onclick="window.print()">Download PDF</button>
+
+    <script>
+      const data = JSON.parse(localStorage.getItem("resumeData"));
+
+      document.getElementById("name").innerText = data.name;
+      document.getElementById("title").innerText = data.title;
+      document.getElementById("contact").innerText =
+        data.email + " | " + data.phone;
+
+      data.skills.forEach((skill) => {
+        const li = document.createElement("li");
+        li.innerText = skill.trim();
+        document.getElementById("skills").appendChild(li);
+      });
+
+      document.getElementById("project").innerText =
+        data.project.title + " – " + data.project.description;
+
+      document.getElementById("links").innerText =
+        data.social.linkedin +
+        " | " +
+        data.social.github +
+        " | " +
+        data.social.website;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQ | Portfolio Builder</title>
+    <link rel="stylesheet" href="faq.css" />
+  </head>
+  <body>
+    <div class="app">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="user-info">
+          <img
+            src="https://img.freepik.com/premium-vector/portrait-business-woman_505024-2799.jpg?semt=ais_hybrid&w=740&q=80"
+          />
+          <div class="user-text">
+            <h3>SAKSHI</h3>
+            <span>Portfolio Creator</span>
+          </div>
+        </div>
+        <nav>
+          <a href="dashboard.html">Home</a>
+          <a href="templates.html">Templates</a>
+          <a href="builder.html">Build Resume</a>
+          <a href="profile.html">Profile</a>
+          <a href="contact.html">Contact</a>
+          <a href="about.html">About</a>
+          <a class="active" href="faq.html">FAQ</a>
+        </nav>
+        <button class="logout" onclick="logoutUser()">Logout</button>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="content">
+        <section class="page-intro">
+          <h2>Frequently Asked Questions</h2>
+          <p>Click on a question to reveal the answer.</p>
+        </section>
+
+        <section class="faq-section">
+          <div class="faq-card">
+            <button class="faq-question">
+              How do I create a new portfolio?
+            </button>
+            <div class="faq-answer">
+              Navigate to the Builder page, select a template, and start adding
+              your projects, skills, and details.
+            </div>
+          </div>
+
+          <div class="faq-card">
+            <button class="faq-question">
+              Can I download my portfolio as PDF?
+            </button>
+            <div class="faq-answer">
+              Yes, after creating your portfolio, the download option to save it
+              as PDF.
+            </div>
+          </div>
+
+          <div class="faq-card">
+            <button class="faq-question">
+              Do I need an account to use Portfolio Builder?
+            </button>
+            <div class="faq-answer">
+              Yes, you must create an account and log in to access Builder
+              features, save your portfolios.
+            </div>
+          </div>
+
+          <div class="faq-card">
+            <button class="faq-question">Are my portfolios private?</button>
+            <div class="faq-answer">
+              By default, your portfolios are private. You can choose to share
+              them publicly or with selected users.
+            </div>
+          </div>
+
+          <div class="faq-card">
+            <button class="faq-question">
+              Can I choose different templates for different portfolios?
+            </button>
+            <div class="faq-answer">
+              Yes, each portfolio can have its own template, colors, and theme
+              settings.
+            </div>
+          </div>
+
+          <div class="faq-card">
+            <button class="faq-question">
+              Can I update my profile details?
+            </button>
+            <div class="faq-answer">
+              Yes, go to the Profile page and update your name, email, or
+              profile picture anytime.
+            </div>
+          </div>
+
+          <div class="faq-card">
+            <button class="faq-question">
+              Is there a limit to the number of portfolios I can create?
+            </button>
+            <div class="faq-answer">
+              No, you can create as many portfolios as you need.
+            </div>
+          </div>
+
+          <div class="faq-card">
+            <button class="faq-question">What if I forget my password?</button>
+            <div class="faq-answer">
+              You can reset your password on the login page using the "Forgot
+              Password" link. Instructions will be sent to your registered
+              email.
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const faqButtons = document.querySelectorAll(".faq-question");
+      faqButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const answer = button.nextElementSibling;
+          const isOpen = answer.style.display === "block";
+          answer.style.display = isOpen ? "none" : "block";
+          button.classList.toggle("open");
+        });
+      });
+      function logoutUser() {
+        localStorage.clear();
+        window.location.href = "home.html";
+      }
+    </script>
+  </body>
+</html>

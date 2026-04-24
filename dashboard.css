@@ -1,0 +1,282 @@
+/* =========================
+   GLOBAL THEME VARIABLES
+========================= */
+:root {
+  --violet-main: #5b21b6;
+  --violet-light: #ede9fe;
+  --violet-hover: #7c3aed;
+
+  --white: #ffffff;
+  --black: #111111;
+  --gray-text: #444;
+
+  --shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+/* =========================
+   RESET
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #6d28d9, #4c1d95);
+  min-height: 100vh;
+  color: var(--black);
+}
+
+/* =========================
+   LAYOUT
+========================= */
+.app {
+  display: flex;
+  min-height: 100vh;
+  padding: 30px;
+  gap: 30px;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+.sidebar {
+  width: 260px;
+  background: var(--white);
+  border-radius: 18px;
+  padding: 28px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Push logout to bottom */
+  height: 100vh; /* Full page height */
+  box-shadow: var(--shadow);
+}
+
+/* User */
+.user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+.user img {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+}
+
+.user h3 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.user span {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Navigation */
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Increased space between buttons */
+  flex: 1; /* Make nav take remaining space */
+}
+
+nav a {
+  text-decoration: none;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--black);
+  position: relative;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  background: var(--violet-light);
+}
+
+/* Active Indicator */
+nav a.active {
+  background: var(--violet-light);
+  color: var(--violet-main);
+}
+
+nav a.active::before {
+  content: "";
+  position: absolute;
+  left: -22px;
+  top: 0;
+  width: 5px;
+  height: 100%;
+  background: var(--violet-main);
+  border-radius: 6px;
+}
+
+/* Logout */
+.logout {
+  margin-top: 20px;
+  background: var(--violet-main);
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f9f9fb;
+  padding: 12px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logout:hover {
+  background: var(--violet-hover);
+}
+
+/* =========================
+   MAIN CONTENT
+========================= */
+.content {
+  flex: 1;
+  background: var(--white);
+  border-radius: 22px;
+  padding: 60px 80px;
+  box-shadow: var(--shadow);
+  overflow-y: auto;
+}
+
+/* =========================
+   CARDS
+========================= */
+.intro,
+.recent {
+  background: var(--white);
+  padding: 36px 40px;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  margin-bottom: 50px;
+}
+
+/* Intro */
+.intro h1 {
+  font-size: 42px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.intro span {
+  color: var(--violet-main);
+}
+
+.intro p {
+  margin: 22px 0 34px;
+  max-width: 560px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--gray-text);
+}
+
+/* Buttons */
+.actions {
+  display: flex;
+  gap: 16px;
+}
+
+.actions button {
+  padding: 14px 28px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+.actions button:first-child {
+  background: var(--violet-main);
+  color: #f5f5f7;
+}
+
+.actions button:first-child:hover {
+  background: var(--violet-hover);
+}
+
+.actions .ghost {
+  background: transparent;
+  border: 2px solid var(--violet-main);
+  color: var(--violet-main);
+}
+
+/* Recent Section */
+.recent h4 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.recent ul {
+  list-style: none;
+}
+
+.recent li {
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gray-text);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .content {
+    padding: 40px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .app {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    height: auto;
+  }
+
+  nav {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  nav a {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  nav a.active::before {
+    display: none;
+  }
+
+  .logout {
+    margin-left: auto;
+  }
+
+  .content {
+    padding: 28px 22px;
+  }
+
+  .intro h1 {
+    font-size: 30px;
+  }
+}

@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* Background image with gradient overlay */
+        background:
+          linear-gradient(rgba(87, 3, 148, 0.6), rgba(127, 29, 246, 0.6)),
+          url("https://images.unsplash.com/photo-1581091215365-7f1050a9e4f1?auto=format&fit=crop&w=1600&q=80")
+            center/cover no-repeat;
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px 30px;
+        border-radius: 14px;
+        width: 100%;
+        max-width: 800px;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+        text-align: center;
+      }
+
+      h2 {
+        color: #6a0dad;
+        margin-bottom: 25px;
+        font-size: 28px;
+      }
+
+      .main-box {
+        display: flex;
+        gap: 30px;
+        margin-top: 20px;
+      }
+
+      .form-section {
+        flex: 1;
+      }
+
+      .rules-box {
+        flex: 1;
+        background: #f9f5ff;
+        padding: 20px;
+        border-radius: 12px;
+        text-align: left;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .rules-box h3 {
+        color: #6a0dad;
+        margin-bottom: 12px;
+      }
+
+      .rules-box ul {
+        list-style: none;
+      }
+
+      .rules-box li {
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      .valid {
+        color: green;
+      }
+
+      .invalid {
+        color: red;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        outline: none;
+        font-size: 14px;
+      }
+
+      input:focus {
+        border-color: #6a0dad;
+      }
+
+      .input-box {
+        position: relative;
+      }
+
+      .toggle {
+        position: absolute;
+        right: 10px;
+        top: 14px;
+        cursor: pointer;
+        color: #6a0dad;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px;
+        border-radius: 8px;
+        border: none;
+        background: #6a0dad;
+        color: white;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background: #4b0082;
+      }
+
+      .login-btn {
+        background: transparent;
+        color: #6a0dad;
+        border: 1px solid #6a0dad;
+        margin-top: 10px;
+        transition: 0.3s;
+      }
+
+      .login-btn:hover {
+        background: #6a0dad;
+        color: #fff;
+      }
+
+      .message {
+        margin-top: 12px;
+        font-size: 14px;
+      }
+
+      .success {
+        color: green;
+      }
+
+      .error {
+        color: red;
+      }
+
+      @media (max-width: 768px) {
+        .main-box {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Register</h2>
+
+      <div class="main-box">
+        <form id="registerForm" class="form-section">
+          <input type="text" id="name" placeholder="Full Name" required />
+          <input type="email" id="email" placeholder="Email" required />
+
+          <div class="input-box">
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              required
+            />
+            <span class="toggle" onclick="togglePassword('password')">👁️</span>
+          </div>
+
+          <div class="input-box">
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="Confirm Password"
+              required
+            />
+            <span class="toggle" onclick="togglePassword('confirmPassword')"
+              >👁️</span
+            >
+          </div>
+
+          <button type="submit">Register</button>
+          <button type="button" onclick="goLogin()" class="login-btn">
+            Already have an account? Login
+          </button>
+        </form>
+
+        <div class="rules-box">
+          <h3>Password Rules</h3>
+          <ul>
+            <li id="length" class="invalid">❌ At least 6 characters</li>
+            <li id="uppercase" class="invalid">❌ One uppercase letter</li>
+            <li id="number" class="invalid">❌ One number</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="message" id="msg"></p>
+    </div>
+
+    <script>
+      const form = document.getElementById("registerForm");
+      const msg = document.getElementById("msg");
+
+      function togglePassword(id) {
+        const field = document.getElementById(id);
+        field.type = field.type === "password" ? "text" : "password";
+      }
+
+      function goLogin() {
+        window.location.href = "login.html";
+      }
+
+      const passwordInput = document.getElementById("password");
+      passwordInput.addEventListener("keyup", function () {
+        const value = passwordInput.value;
+        document.getElementById("length").className =
+          value.length >= 6 ? "valid" : "invalid";
+        document.getElementById("uppercase").className = /[A-Z]/.test(value)
+          ? "valid"
+          : "invalid";
+        document.getElementById("number").className = /[0-9]/.test(value)
+          ? "valid"
+          : "invalid";
+      });
+
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
+
+        if (password !== confirmPassword) {
+          msg.innerText = "Passwords do not match ❌";
+          msg.className = "message error";
+          return;
+        }
+
+        try {
+          const res = await fetch("http://localhost:5000/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, password }),
+          });
+
+          const text = await res.text();
+          console.log("RAW RESPONSE 👉", text);
+
+          let data;
+          try {
+            data = JSON.parse(text);
+          } catch {
+            msg.innerText = "Invalid server response ❌";
+            msg.className = "message error";
+            return;
+          }
+
+          msg.innerText = data.message;
+          msg.className = res.ok ? "message success" : "message error";
+
+          if (res.ok)
+            setTimeout(() => {
+              window.location.href = "login.html";
+            }, 1000);
+        } catch (error) {
+          console.log("FETCH ERROR 👉", error);
+          msg.innerText = "Server not connected ❌";
+          msg.className = "message error";
+        }
+      });
+    </script>
+  </body>
+</html>

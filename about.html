@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About | Portfolio Builder</title>
+    <link rel="stylesheet" href="about.css" />
+  </head>
+  <script>
+    function logoutUser() {
+      // Clear stored data
+      localStorage.clear();
+
+      // Redirect to home page
+      window.location.href = "home.html"; //
+    }
+  </script>
+  <body>
+    <div class="app">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="user-info">
+          <img
+            src="https://img.freepik.com/premium-vector/portrait-business-woman_505024-2799.jpg?semt=ais_hybrid&w=740&q=80"
+          />
+          <div class="user-text">
+            <h3>SAKSHI</h3>
+            <span>Portfolio Creator</span>
+          </div>
+        </div>
+        <nav>
+          <a href="dashboard.html">Home</a>
+          <a href="templates.html">Templates</a>
+          <a href="builder.html">Build Resume</a>
+          <a href="profile.html">Profile</a>
+          <a href="contact.html">Contact</a>
+          <a class="active" href="about.html">About</a>
+          <a href="FAQ.html">FAQ</a>
+        </nav>
+        <button class="logout" onclick="logoutUser()">Logout</button>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="content">
+        <section class="page-intro">
+          <h2>About Portfolio Builder</h2>
+          <p>
+            Portfolio Builder is a modern web application that allows users to
+            create professional portfolios easily. You can customize templates,
+            showcase projects, and share your work professionally.
+          </p>
+        </section>
+
+        <section class="about-section">
+          <!-- Features Card -->
+          <div class="about-card">
+            <h3>Our Mission</h3>
+            <p>
+              To empower professionals and creatives to build stunning
+              portfolios effortlessly, helping them showcase their skills and
+              projects.
+            </p>
+          </div>
+
+          <div class="about-card">
+            <h3>Our Vision</h3>
+            <p>
+              To become the most intuitive and visually appealing portfolio
+              builder for professionals worldwide.
+            </p>
+          </div>
+
+          <div class="about-card">
+            <h3>Why Choose Us?</h3>
+            <ul>
+              <li>Easy-to-use interface</li>
+              <li>Modern and responsive templates</li>
+              <li>Professional styling and PDF export</li>
+              <li>Consistent UI across all devices</li>
+            </ul>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Reset Password</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(
+          rgba(87, 3, 148, 0.6),
+          rgba(127, 29, 246, 0.6)
+        );
+        font-family: Arial;
+      }
+
+      .box {
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        width: 350px;
+        text-align: center;
+      }
+
+      input,
+      button {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+      }
+
+      button {
+        background: #6a0dad;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+
+      .msg {
+        font-size: 14px;
+        margin-top: 10px;
+      }
+
+      .success {
+        color: green;
+      }
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="box">
+      <h2>Reset Password</h2>
+
+      <form id="resetForm">
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email"
+          required
+        />
+        <input
+          type="password"
+          id="newPassword"
+          placeholder="New Password"
+          required
+        />
+
+        <button type="submit">Update Password</button>
+      </form>
+
+      <p class="msg" id="msg"></p>
+    </div>
+
+    <script>
+      const form = document.getElementById("resetForm");
+      const msg = document.getElementById("msg");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("newPassword").value;
+
+        try {
+          const res = await fetch("http://localhost:5000/forgot-password", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+
+          const data = await res.json();
+
+          msg.innerText = data.message;
+          msg.className = res.ok ? "msg success" : "msg error";
+
+          if (res.ok) {
+            setTimeout(() => {
+              window.location.href = "login.html";
+            }, 1500);
+          }
+        } catch {
+          msg.innerText = "Server error ❌";
+          msg.className = "msg error";
+        }
+      });
+    </script>
+  </body>
+</html>

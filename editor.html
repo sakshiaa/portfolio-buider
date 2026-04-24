@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Portfolio Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        height: 100vh;
+      }
+
+      iframe {
+        flex: 1;
+        border: none;
+        background: #fff;
+        height: 100vh;
+      }
+
+      /* Download Button */
+      .download-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        padding: 12px 24px;
+        background: #6c63ff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+        transition: 0.3s;
+      }
+
+      .download-btn:hover {
+        background: #5146c0;
+        transform: scale(1.05);
+      }
+
+      /* Back Button */
+      .back-btn {
+        position: fixed;
+        left: 20px;
+        bottom: 20px;
+        padding: 10px 20px;
+        background: #333;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+        transition: 0.3s;
+      }
+
+      .back-btn:hover {
+        background: #000;
+        transform: scale(1.05);
+      }
+
+      /* ✅ POPUP STYLE */
+      .popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+      }
+
+      .popup-box {
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        text-align: center;
+        width: 320px;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .popup-box h2 {
+        margin-bottom: 10px;
+      }
+
+      .popup-box button {
+        margin-top: 15px;
+        padding: 10px 20px;
+        border: none;
+        background: #6c63ff;
+        color: white;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .popup-box button:hover {
+        background: #5146c0;
+      }
+
+      @keyframes fadeIn {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <iframe id="preview"></iframe>
+
+    <input type="file" id="imageInput" accept="image/*" hidden />
+
+    <!-- ✅ Back Button -->
+    <button class="back-btn" onclick="goToDashboard()">
+      ← Back to Dashboard
+    </button>
+
+    <!-- ✅ Download Button -->
+    <button class="download-btn" onclick="downloadWebsite()">
+      Download Portfolio
+    </button>
+
+    <!-- ✅ NEW POPUP -->
+    <div id="downloadPopup" class="popup">
+      <div class="popup-box">
+        <h2>🎉 Download Complete!</h2>
+        <p>Your portfolio has been downloaded successfully.</p>
+        <button onclick="goToDashboard()">Go to Dashboard</button>
+        <br />
+        <button onclick="closePopup()">Stay Here</button>
+      </div>
+    </div>
+
+    <script>
+      const template = localStorage.getItem("selectedTemplate");
+      const iframe = document.getElementById("preview");
+      const imageInput = document.getElementById("imageInput");
+
+      let activeImage = null;
+
+      if (!template) {
+        alert("No template selected");
+        window.location.href = "templates.html";
+      }
+
+      // LOAD TEMPLATE
+      fetch(`templates/${template}.html`)
+        .then((res) => res.text())
+        .then((html) => {
+          iframe.srcdoc = html;
+          iframe.onload = enableEditing;
+        });
+
+      // ENABLE EDITING
+      function enableEditing() {
+        const doc = iframe.contentDocument;
+
+        doc.querySelectorAll("[contenteditable]").forEach((el) => {
+          el.setAttribute("contenteditable", "true");
+          el.style.cursor = "text";
+        });
+
+        doc.querySelectorAll("img").forEach((img) => {
+          img.style.cursor = "pointer";
+          img.addEventListener("click", () => {
+            activeImage = img;
+            imageInput.click();
+          });
+        });
+
+        doc.querySelectorAll("a").forEach((link) => {
+          link.style.cursor = "pointer";
+        });
+      }
+
+      // IMAGE UPLOAD
+      imageInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file || !activeImage) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          activeImage.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      // ✅ DOWNLOAD FUNCTION WITH POPUP
+      function downloadWebsite() {
+        const iframeDoc = iframe.contentDocument;
+        const clonedDoc = iframeDoc.documentElement.cloneNode(true);
+
+        // Clean editing
+        clonedDoc.querySelectorAll("[contenteditable]").forEach((el) => {
+          el.removeAttribute("contenteditable");
+          el.style.outline = "none";
+        });
+
+        clonedDoc.querySelectorAll("script").forEach((script) => {
+          script.remove();
+        });
+
+        const finalHTML = "<!DOCTYPE html>\n" + clonedDoc.outerHTML;
+
+        const blob = new Blob([finalHTML], { type: "text/html" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "portfolio.html";
+        a.click();
+
+        // ✅ SHOW POPUP INSTEAD OF ALERT
+        setTimeout(() => {
+          document.getElementById("downloadPopup").style.display = "flex";
+        }, 500);
+      }
+
+      // CLOSE POPUP
+      function closePopup() {
+        document.getElementById("downloadPopup").style.display = "none";
+      }
+
+      // BACK BUTTON
+      function goToDashboard() {
+        window.location.href = "dashboard.html";
+      }
+    </script>
+  </body>
+</html>

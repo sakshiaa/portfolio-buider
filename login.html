@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* Background image with gradient overlay */
+        background:
+          linear-gradient(rgba(87, 3, 148, 0.6), rgba(127, 29, 246, 0.6)),
+          url("https://images.unsplash.com/photo-1581091215365-7f1050a9e4f1?auto=format&fit=crop&w=1600&q=80")
+            center/cover no-repeat;
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px 30px;
+        border-radius: 14px;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+        text-align: center;
+      }
+
+      h2 {
+        color: #6a0dad;
+        margin-bottom: 25px;
+        font-size: 28px;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        outline: none;
+        font-size: 14px;
+      }
+
+      input:focus {
+        border-color: #6a0dad;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px;
+        border-radius: 8px;
+        border: none;
+        background: #6a0dad;
+        color: white;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background: #4b0082;
+      }
+
+      .secondary-btn {
+        background: transparent;
+        color: #6a0dad;
+        border: 1px solid #6a0dad;
+        margin-top: 10px;
+        transition: 0.3s;
+      }
+
+      .secondary-btn:hover {
+        background: #6a0dad;
+        color: #fff;
+      }
+
+      .message {
+        margin-top: 12px;
+        font-size: 14px;
+      }
+
+      .success {
+        color: green;
+      }
+
+      .error {
+        color: red;
+      }
+
+      /* Responsive */
+      @media (max-width: 600px) {
+        .container {
+          padding: 30px 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Login</h2>
+
+      <form id="loginForm">
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <p style="text-align: right; margin-top: 5px">
+          <a href="forgot.html" style="color: #6a0dad; font-size: 13px">
+            Forgot Password?
+          </a>
+        </p>
+
+        <button type="submit">Login</button>
+
+        <!-- Sign Up Button -->
+        <button type="button" onclick="goRegister()" class="secondary-btn">
+          Not Registered? Sign Up
+        </button>
+      </form>
+
+      <p class="message" id="msg"></p>
+    </div>
+
+    <script>
+      const form = document.getElementById("loginForm");
+      const msg = document.getElementById("msg");
+
+      // Redirect to register page
+      function goRegister() {
+        window.location.href = "register.html";
+      }
+
+      // LOGIN WITH SQL BACKEND
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        try {
+          const res = await fetch("http://localhost:5000/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          const data = await res.json();
+
+          // Show message
+          msg.innerText = data.message;
+          msg.className = res.ok ? "message success" : "message error";
+
+          // If login success
+          if (res.ok) {
+            // Store user temporarily (for dashboard use)
+            localStorage.setItem("user", JSON.stringify(data.user));
+
+            setTimeout(() => {
+              window.location.href = "dashboard.html";
+            }, 1000);
+          }
+        } catch (error) {
+          msg.innerText = "Server not connected ❌";
+          msg.className = "message error";
+        }
+      });
+    </script>
+  </body>
+</html>

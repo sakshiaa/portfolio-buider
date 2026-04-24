@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact | Portfolio Builder</title>
+    <link rel="stylesheet" href="contact.css" />
+  </head>
+
+  <body>
+    <div class="app">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="user-info">
+          <img
+            src="https://img.freepik.com/premium-vector/portrait-business-woman_505024-2799.jpg"
+          />
+          <div class="user-text">
+            <h3>SAKSHI</h3>
+            <span>Portfolio Creator</span>
+          </div>
+        </div>
+
+        <nav>
+          <a href="dashboard.html">Home</a>
+          <a href="templates.html">Templates</a>
+          <a href="builder.html">Build Resume</a>
+          <a href="profile.html">Profile</a>
+          <a class="active" href="contact.html">Contact</a>
+          <a href="about.html">About</a>
+          <a href="FAQ.html">FAQ</a>
+        </nav>
+
+        <button class="logout" onclick="logoutUser()">Logout</button>
+      </aside>
+
+      <!-- Content -->
+      <main class="content">
+        <section class="page-intro">
+          <h2>Contact Us And give Feedback</h2>
+          <p>If you have any questions, reach out below.</p>
+        </section>
+
+        <section class="contact-form-section">
+          <form id="contactForm" class="contact-form">
+            <div class="input-group">
+              <label>Full Name</label>
+              <input type="text" id="name" required />
+            </div>
+
+            <div class="input-group">
+              <label>Email</label>
+              <input type="email" id="email" required />
+            </div>
+
+            <div class="input-group">
+              <label>Subject</label>
+              <input type="text" id="subject" required />
+            </div>
+
+            <div class="input-group">
+              <label>Message</label>
+              <textarea id="message" rows="6" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Contact No.</label>
+              <div class="phone-input">
+                <select id="countryCode">
+                  <option value="+91">+91</option>
+                  <option value="+1">+1</option>
+                  <option value="+44">+44</option>
+                </select>
+                <input type="tel" id="phone" required />
+              </div>
+            </div>
+
+            <button type="submit" class="send-btn">Send Message</button>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <!-- ✅ POPUP -->
+    <div id="popupModal" class="popup-overlay">
+      <div class="popup-box">
+        <p id="popupMessage"></p>
+        <button onclick="closePopup()">OK</button>
+      </div>
+    </div>
+
+    <!-- ✅ SCRIPT -->
+    <script>
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const data = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            subject: document.getElementById("subject").value,
+            message: document.getElementById("message").value,
+            phone: document.getElementById("phone").value,
+          };
+
+          try {
+            const res = await fetch("http://localhost:5000/contact", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            });
+
+            const result = await res.json();
+
+            showPopup(result.message, result.success);
+
+            if (result.success) {
+              document.getElementById("contactForm").reset();
+            }
+          } catch (err) {
+            showPopup("Failed to send message ❌", false);
+          }
+        });
+
+      /* ✅ POPUP FUNCTIONS */
+      function showPopup(message, isSuccess) {
+        const popup = document.getElementById("popupModal");
+        const text = document.getElementById("popupMessage");
+
+        text.textContent = message;
+        text.style.color = isSuccess ? "#0f9d58" : "#d93025";
+
+        popup.style.display = "flex";
+      }
+
+      function closePopup() {
+        document.getElementById("popupModal").style.display = "none";
+      }
+
+      /* Logout */
+      function logoutUser() {
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.href = "home.html";
+      }
+    </script>
+  </body>
+</html>
